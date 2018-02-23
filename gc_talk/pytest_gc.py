@@ -3,7 +3,7 @@ import gc
 
 
 @pytest.fixture(autouse=True)
-def garbage_detect(request):
+def garbage_detect():
     # Clean up all objects
     gc.set_debug(0)
     gc.collect()
@@ -16,7 +16,4 @@ def garbage_detect(request):
     gc.collect()
 
     # Check that there is no garbage
-    garbage_expected = request.node.get_marker('garbage')
-
-    if not garbage_expected:
-        assert len(gc.garbage) == 0
+    assert len(gc.garbage) == 0
